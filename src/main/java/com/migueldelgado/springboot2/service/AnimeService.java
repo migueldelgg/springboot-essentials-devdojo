@@ -1,6 +1,7 @@
 package com.migueldelgado.springboot2.service;
 
 import com.migueldelgado.springboot2.domain.Anime;
+import com.migueldelgado.springboot2.exception.BadRequestException;
 import com.migueldelgado.springboot2.mapper.AnimeMapper;
 import com.migueldelgado.springboot2.repository.AnimeRepository;
 import com.migueldelgado.springboot2.requests.AnimePostRequestBody;
@@ -25,7 +26,7 @@ public class AnimeService {
     public Anime findByIdOrThrowBadRequestException(long id) {
         return animeRepository
                 .findById(id)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "Anime not Found"));
+                .orElseThrow(() -> new BadRequestException("Anime not Found"));
     }
 
     public Anime save(AnimePostRequestBody animePostRequestBody) {
@@ -42,5 +43,10 @@ public class AnimeService {
         anime.setId(savedAnime.getId());
         animeRepository.save(anime);
     }
+
+    public List<Anime> findByName(String name){
+        return animeRepository.findByName(name);
+    }
+
 }
 
